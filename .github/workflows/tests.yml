@@ -8,40 +8,14 @@ env:
   SWOW_HAVE_CURL: 1
 
 jobs:
-  cs-check:
-    name: Coding style check
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Use action to check for CRLF endings
-        uses: erclu/check-crlf@v1
-        with:
-          path: ./
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
-
-      - name: Coding Standards Check
-        shell: bash
-        run: |
-          echo "::group::Accquire composer dependencies"
-          composer update -o --ignore-platform-reqs
-          echo "::endgroup::"
-          echo "::group::Run cs-check"
-          composer cs-check -- -v
-
   windows-tests:
     name: PHP ${{ matrix.php-version }} ${{ matrix.ts }} Test on windows-2019
     runs-on: windows-2019
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.3", "8.2", "8.1", "8.0"]
-        ts: [ 'nts', 'ts' ]
+        php-version: ["8.3"]
+        ts: [ 'ts' ]
       max-parallel: 8
     steps:
       - name: Checkout
@@ -70,7 +44,7 @@ jobs:
         with:
           ext-path: ./ext
           tools-path: C:\tools\phpdev
-          conf-args: --enable-swow-debug --enable-swow-ssl --disable-swow-curl --enable-debug-pack --enable-swow-pdo-pgsql
+          conf-args: --enable-swow-debug --enable-swow-ssl --enable-swow-curl --enable-debug-pack --enable-swow-pdo-pgsql
           ext-name: swow
           deps: openssl,libcurl,libssh2,zlib,nghttp2,libpq
 

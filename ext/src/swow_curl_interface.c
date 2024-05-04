@@ -390,7 +390,7 @@ zend_result swow_curl_interface_module_init(INIT_FUNC_ARGS)
     REGISTER_INI_ENTRIES();
 #endif
 
-    register_curl_symbols(module_number);
+    // register_curl_symbols(module_number);
 
 #ifdef PHP_CURL_NEED_OPENSSL_TSL
     if (!CRYPTO_get_id_callback()) {
@@ -416,27 +416,27 @@ zend_result swow_curl_interface_module_init(INIT_FUNC_ARGS)
     }
 #endif
 
-    swow_curl_ce = register_class_CurlHandle();
-    swow_curl_ce->create_object = curl_create_object;
-#if PHP_VERSION_ID >= 80300
-    swow_curl_ce->default_object_handlers = &swow_curl_object_handlers;
-#endif
+//     swow_curl_ce = register_class_CurlHandle();
+//     swow_curl_ce->create_object = curl_create_object;
+// #if PHP_VERSION_ID >= 80300
+//     swow_curl_ce->default_object_handlers = &swow_curl_object_handlers;
+// #endif
 
-    memcpy(&swow_curl_object_handlers, &std_object_handlers, sizeof(zend_object_handlers));
-    swow_curl_object_handlers.offset = XtOffsetOf(php_curl, std);
-    swow_curl_object_handlers.free_obj = curl_free_obj;
-    swow_curl_object_handlers.get_gc = curl_get_gc;
-    swow_curl_object_handlers.get_constructor = curl_get_constructor;
-    swow_curl_object_handlers.clone_obj = curl_clone_obj;
-    swow_curl_object_handlers.cast_object = swow_curl_cast_object;
-    swow_curl_object_handlers.compare = zend_objects_not_comparable;
+//     memcpy(&swow_curl_object_handlers, &std_object_handlers, sizeof(zend_object_handlers));
+//     swow_curl_object_handlers.offset = XtOffsetOf(php_curl, std);
+//     swow_curl_object_handlers.free_obj = curl_free_obj;
+//     swow_curl_object_handlers.get_gc = curl_get_gc;
+//     swow_curl_object_handlers.get_constructor = curl_get_constructor;
+//     swow_curl_object_handlers.clone_obj = curl_clone_obj;
+//     swow_curl_object_handlers.cast_object = swow_curl_cast_object;
+//     swow_curl_object_handlers.compare = zend_objects_not_comparable;
 
-    swow_curl_multi_ce = register_class_CurlMultiHandle();
-    swow_curl_multi_register_handlers();
+//     swow_curl_multi_ce = register_class_CurlMultiHandle();
+//     swow_curl_multi_register_handlers();
 
-    swow_curl_share_ce = register_class_CurlShareHandle();
-    swow_curl_share_register_handlers();
-    swow_curlfile_register_class();
+//     swow_curl_share_ce = register_class_CurlShareHandle();
+//     swow_curl_share_register_handlers();
+//     swow_curlfile_register_class();
 
     if (zend_register_functions(NULL, swow_curl_functions, NULL, type) != SUCCESS) {
         return FAILURE;
