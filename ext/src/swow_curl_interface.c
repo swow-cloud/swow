@@ -438,9 +438,9 @@ zend_result swow_curl_interface_module_init(INIT_FUNC_ARGS)
 //     swow_curl_share_register_handlers();
 //     swow_curlfile_register_class();
 
-    if (zend_register_functions(NULL, swow_curl_functions, NULL, type) != SUCCESS) {
-        return FAILURE;
-    }
+    // if (zend_register_functions(NULL, swow_curl_functions, NULL, type) != SUCCESS) {
+    //     return FAILURE;
+    // }
 
     return SUCCESS;
 }

@@ -40,7 +40,7 @@ zend_result swow_curl_module_init(INIT_FUNC_ARGS)
     } else {
         // swow_clean_module_constants(php_curl_module->module_number);
         // swow_clean_module_classes(php_curl_module->module_number);
-        swow_clean_module_functions(php_curl_module->module_number);
+        // swow_clean_module_functions(php_curl_module->module_number);
         // php_curl_module->info_func = swow_curl_module_info;
     }
 
