@@ -55,7 +55,7 @@ installdnf()
         dnf config-manager --enable powertools || :
     fi
 
-    dnf groupinstall -yy "Development Tools"
+    dnf groupinstall -yy "Development Tools" || dnf group install -yy "Development Tools"
     dnf install -yy sqlite-devel libxml2-devel libcurl-devel openssl-devel re2c bison autoconf
 }
 
