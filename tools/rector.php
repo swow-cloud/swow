@@ -24,7 +24,7 @@ if (PHP_VERSION_ID >= 80200) {
 if (extension_loaded(Swow::class)) {
     throw new Error(
         'Unable to run with Swow extension, ' .
-        'because PHPStan\\BetterReflection does not support generate stub files for PHP-8.x extension, ' .
+        'because PHPStan\BetterReflection does not support generate stub files for PHP-8.x extension, ' .
         'we use our stub file instead'
     );
 }

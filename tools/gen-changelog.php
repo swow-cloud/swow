@@ -97,7 +97,7 @@ $commits = array_map(static function (string $commit) use ($workspace, $authorMa
     $commit['author'] = $authorMap[$parts[1]] ?? throw new RuntimeException(sprintf("Unknown author: '%s'", $parts[1]));
     $commit['email'] = $parts[2];
     $commit['date'] = $parts[3];
-    $commit['message'] = addcslashes($parts[4], '\\*');
+    $commit['message'] = addcslashes($parts[4], '\*');
     $diff = shell_exec(sprintf('cd %s && git show --pretty="" --patch %s', $workspace, $commit['hash']));
     if (strlen($diff) > 2000) {
         $diff = substr($diff, 0, 2000) . "\n...";
