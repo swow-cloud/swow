@@ -1,3 +1,38 @@
+# v1.5.3
+
+> release-date: 2024-07-22
+
+> 「成功的关键在于我们对失败的反应。」 - ChatGPT
+> 
+> "The key to success is how we respond to failure." - ChatGPT
+
+该版本主要修复了 cURL 在特定条件下会死循环的问题，并新增了日语版本的 README。
+
+This version mainly fixes the issue of cURL getting stuck in an infinite loop under certain conditions, and adds a Japanese version of the README.
+
+## 🐣 What's New
+
++ Add FileSystem::scanDirRecursive() (b238947) (@twose)
+
+## ✨ What's Enhanced
+
++ Japanese README (#252) (@eltociear)
+
+## 🐛 What's Fixed
+
+* Fix cURL dead loop bug (libcat/libcat@0d68189e) (@twose)
+* Fix strange hard code in builder (0fcf143) (@twose)
+
+## 👻 What's Removed
+
+- Nothing removed
+
+## 📦 Internal
+
++ Update swow_fs (44621bb) (@dixyes)
+
+---
+
 # v1.5.2
 
 > release-date: 2024-05-13
@@ -24,7 +59,7 @@
 
 - Nothing removed
 
-----
+---
 
 # v1.5.1
 
@@ -68,8 +103,11 @@
 > "Excellent projects earn stars, great projects win hearts and minds." - Swow
 
 版本亮点：
+
 1、全新的 cURL 协程化支持，底层重构实现，覆盖各种边缘 cases；
+
 2、完整包含 PHP cURL 实现，不再依赖 cURL 扩展，因此可适配所有运行环境；
+
 3、Debugger 支持远程 telnet 调试、Psr7 Server 支持 HTTP chunked response。
 
 ## 🐣 What's New
