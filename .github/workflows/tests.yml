@@ -111,6 +111,12 @@ jobs:
         continue-on-error: true
         run: php --ri pcov && composer test-library-with-pcov
 
+      - name: Run PHPT from php-src
+        id: test-php-src
+        continue-on-error: true
+        run: |
+          ./.github/workflows/run-php-src-tests.sh
+
       - name: Fail if test-extension failed
         if: steps.test-extension.outcome != 'success'
         run: exit 1
@@ -225,6 +231,12 @@ jobs:
         id: test-library
         continue-on-error: true
         run: php --ri pcov && composer test-library-with-pcov
+
+      - name: Run PHPT from php-src
+        id: test-php-src
+        continue-on-error: true
+        run: |
+          ./.github/workflows/run-php-src-tests.sh
 
       - name: Fail if test-extension failed
         if: steps.test-extension.outcome != 'success'
@@ -380,6 +392,13 @@ jobs:
             --excluded_line_regex "\s*\{\s*" `
             --modules php_swow.dll `
             -- C:\tools\php\php.exe C:\tools\php\composer.phar test-library
+
+      - name: Run PHPT from php-src
+        shell: pwsh
+        id: test-php-src
+        continue-on-error: true
+        run: |
+          ./.github/workflows/run-php-src-tests.ps1
 
       - name: Fail if test-extension failed
         if: steps.test-extension.outcome != 'success'
