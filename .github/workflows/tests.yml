@@ -115,7 +115,7 @@ jobs:
         id: test-php-src
         continue-on-error: true
         run: |
-          ./.github/workflows/run-php-src-tests.sh
+          script -eqc ./.github/workflows/run-php-src-tests.sh
 
       - name: Fail if test-extension failed
         if: steps.test-extension.outcome != 'success'
@@ -236,7 +236,7 @@ jobs:
         id: test-php-src
         continue-on-error: true
         run: |
-          ./.github/workflows/run-php-src-tests.sh
+          script -q whatever ./.github/workflows/run-php-src-tests.sh
 
       - name: Fail if test-extension failed
         if: steps.test-extension.outcome != 'success'

@@ -5,6 +5,7 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 if ( "${env:GITHUB_WORKSPACE}" -Eq "" ) {
     Write-Host "This script is intended to run in GitHub Actions environment only."
+    Write-Host "It's dangerous and meaningless in other environments."
     exit 1
 }
 
@@ -99,8 +100,12 @@ foreach ($excludeTest in $excludeTests) {
     Remove-Item -Path $excludeTest -Recurse -Force -ErrorAction SilentlyContinue
 }
 
+# no pty for Windows
+${env:SKIP_IO_CAPTURE_TESTS} = "true"
+
 # test it
 & php "run-tests.php" `
+    "-q" `
     "-d" "extension=swow" `
     "-d" "opcache.enable_cli=on" `
     "--show-diff" `

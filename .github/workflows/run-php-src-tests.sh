@@ -4,6 +4,7 @@ set -xeo pipefail
 
 if [[ -z "${GITHUB_WORKSPACE}" ]]; then
     echo "This script is intended to run in GitHub Actions environment only."
+    echo "It's dangerous and meaningless in other environments."
     exit 1
 fi
 
@@ -99,6 +100,7 @@ rm -rf "${EXCLUDE_TESTS[@]}"
 
 # test it
 php run-tests.php \
+    -q \
     -d extension="${GITHUB_WORKSPACE}/ext/.libs/swow.so" \
     -d opcache.enable_cli=on \
     --show-diff \
