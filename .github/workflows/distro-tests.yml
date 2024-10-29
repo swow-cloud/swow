@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ '8.1', '8.0' ]
+        php-version: [ '8.3', '8.2', '8.1', '8.0' ]
         distro:
           # CentOS 7 died
           # - name: CentOS 7
@@ -105,6 +105,7 @@ jobs:
           fi
           cd php-src
           curl https://github.com/php/php-src/commit/a9f172466d2a7ddda192d116b4a5a2b1577a45cc.patch | patch -p1 || :
+          curl https://github.com/php/php-src/commit/577b8ae4226368e66fee7a9b5c58f9e2428372fc.patch | patch -p1 || :
       - name: Build things
         run: |
           docker run --rm --name testcontainer \
