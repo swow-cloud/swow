@@ -19,7 +19,7 @@ if (!preg_match('/^8\.[0-3]$/', $phpVersion)) {
 (static function (string $phpVersion): void {
     $composerJson = file_get_contents('composer.json');
     $phpunitVersion = match ($phpVersion) {
-        '8.3', '8.2' => '^11',
+        '8.4', '8.3', '8.2' => '^11',
         '8.1' => '^10',
         '8.0' => '^9',
         default => throw new InvalidArgumentException("Unexpected PHP version {$phpVersion}")
