@@ -39,7 +39,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           tools: phpize
           # ini-values: pcov.directory=lib
           # coverage: pcov
@@ -96,17 +96,17 @@ jobs:
 
       - name: Setup extension dependencies
         run: |
-          brew install pkg-config
-          brew install openssl@3
-          brew install curl
-          brew install libpq postgresql
+          # [ ! -d /opt/homebrew/Cellar/pkg-config* ] && brew install pkg-config
+          [ ! -d /opt/homebrew/Cellar/openssl@3 ] && brew install openssl@3
+          [ ! -d /opt/homebrew/Cellar/curl* ] && brew install curl
+          [ ! -d /opt/homebrew/Cellar/postgresql* ] && brew install libpq postgresql
           initdb --locale=C -E UTF-8 -U postgres "$HOME/pgsqldata"
           pg_ctl -D "$HOME/pgsqldata" start
 
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           tools: phpize
           # ini-values: pcov.directory=lib
           # coverage: pcov
@@ -182,7 +182,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           # ini-values: pcov.directory=lib
           # coverage: pcov
           coverage: none
@@ -193,7 +193,7 @@ jobs:
       - name: Build Swow extension
         uses: ./.github/workflows/winext
         with:
-          phpver: '8.4'
+          phpver: '8.5'
           phpts: ${{ matrix.ts == 'ts' && '1' || '0' }}
           ext-path: ./ext
           tools-path: C:\tools\phpdev
