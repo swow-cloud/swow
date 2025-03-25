@@ -216,7 +216,7 @@ class Frame
         $payload = new Buffer(count($settings) * 6);
         
         foreach ($settings as $id => $value) {
-            $payload->write(pack('nN', $id, $value));
+            $payload->write(0, pack('nN', $id, $value));
         }
         
         return new self(FrameType::SETTINGS, $ack ? self::FLAG_ACK : 0, 0, $payload);
@@ -232,7 +232,7 @@ class Frame
     public static function createWindowUpdateFrame(int $streamId, int $increment): self
     {
         $payload = new Buffer(4);
-        $payload->write(pack('N', $increment));
+        $payload->write(0, pack('N', $increment));
         
         return new self(FrameType::WINDOW_UPDATE, 0, $streamId, $payload);
     }
@@ -247,7 +247,7 @@ class Frame
     public static function createRstStreamFrame(int $streamId, int $errorCode): self
     {
         $payload = new Buffer(4);
-        $payload->write(pack('N', $errorCode));
+        $payload->write(0, pack('N', $errorCode));
         
         return new self(FrameType::RST_STREAM, 0, $streamId, $payload);
     }
@@ -263,10 +263,10 @@ class Frame
     public static function createGoAwayFrame(int $lastStreamId, int $errorCode, string $debugData = ''): self
     {
         $payload = new Buffer(8 + strlen($debugData));
-        $payload->write(pack('NN', $lastStreamId, $errorCode));
+        $payload->write(0, pack('NN', $lastStreamId, $errorCode));
         
         if ($debugData !== '') {
-            $payload->write($debugData);
+            $payload->write(0, $debugData);
         }
         
         return new self(FrameType::GOAWAY, 0, 0, $payload);
@@ -282,7 +282,7 @@ class Frame
     public static function createPingFrame(string $data, bool $ack = false): self
     {
         $payload = new Buffer(8);
-        $payload->write($data);
+        $payload->write(0, $data);
         
         return new self(FrameType::PING, $ack ? self::FLAG_ACK : 0, 0, $payload);
     }
@@ -299,7 +299,7 @@ class Frame
     public static function createPriorityFrame(int $streamId, int $dependsOn, int $weight, bool $exclusive = false): self
     {
         $payload = new Buffer(5);
-        $payload->write(pack('NC', ($exclusive ? 0x80000000 : 0) | $dependsOn, $weight));
+        $payload->write(0, pack('NC', ($exclusive ? 0x80000000 : 0) | $dependsOn, $weight));
         
         return new self(FrameType::PRIORITY, 0, $streamId, $payload);
     }
@@ -316,8 +316,8 @@ class Frame
     public static function createPushPromiseFrame(int $streamId, int $promisedStreamId, Buffer $headers, int $flags = 0): self
     {
         $payload = new Buffer(4 + $headers->getLength());
-        $payload->write(pack('N', $promisedStreamId));
-        $payload->write($headers->toString());
+        $payload->write(0, pack('N', $promisedStreamId));
+        $payload->write(4, $headers->toString());
         
         return new self(FrameType::PUSH_PROMISE, $flags, $streamId, $payload);
     }
@@ -346,16 +346,16 @@ class Frame
         $header = new Buffer(9);
         
         // Length (24 bits), Type (8 bits), Flags (8 bits)
-        $header->write(pack('CCC', ($length >> 16) & 0xFF, ($length >> 8) & 0xFF, $length & 0xFF));
-        $header->write(pack('CC', $this->type, $this->flags));
+        $header->write(0, pack('CCC', ($length >> 16) & 0xFF, ($length >> 8) & 0xFF, $length & 0xFF));
+        $header->write(3, pack('CC', $this->type, $this->flags));
         
         // Stream Identifier (31 bits, reserved bit = 0)
-        $header->write(pack('N', $this->streamId & 0x7FFFFFFF));
+        $header->write(5, pack('N', $this->streamId & 0x7FFFFFFF));
         
         // Combine header and payload
         $result = new Buffer($header->getLength() + $length);
-        $result->write($header->toString());
-        $result->write($this->payload->toString());
+        $result->write(0, $header->toString());
+        $result->write(9, $this->payload->toString());
         
         return $result;
     }
@@ -387,7 +387,7 @@ class Frame
         // Read frame payload
         $payload = new Buffer($length);
         if ($length > 0) {
-            $payload->write($buffer->read($length));
+            $payload->write(0, $buffer->read($length));
         }
         
         return new self($type, $flags, $streamId, $payload);
